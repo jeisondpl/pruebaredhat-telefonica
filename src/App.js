@@ -1,39 +1,43 @@
-import React, { useEffect, useState } from 'react'
-
-import logo from './logo.svg'
 import './App.css'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 
-const URL_RICK = process.env.REACT_APP_API_RICK
+import About from './page/About'
+import Home from './page/Home'
+import Users from './page/Users'
 
 function App() {
-  const [data, setdata] = useState([])
-
-  console.log(URL_RICK)
-
-  useEffect(() => {
-    fetch(URL_RICK)
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response.results)
-        setdata(response.results)
-      })
-  }, [])
-
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>
-          Edit <code>DDDDD jeison src/App.js</code> and save to reload.
-        </p>
-        <a className='App-link' href='https://reactjs.org' target='_blank' rel='noopener noreferrer'>
-          Learn React
-        </a>
-        {data.map((item) => {
-          return <div>{item.name}</div>
-        })}
-      </header>
-    </div>
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to='/'>Home</Link>
+            </li>
+            <li>
+              <Link to='/about'>About</Link>
+            </li>
+            <li>
+              <Link to='/users'>Users</Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      {/* A <Switch> looks through its children <Route>s and
+          renders the first one that matches the current URL. */}
+      <Switch>
+        <Route path='/about'>
+          <About />
+        </Route>
+        <Route path='/users'>
+          <Users />
+        </Route>
+        <Route path='/'>
+          <Home />
+        </Route>
+      </Switch>
+    </Router>
   )
 }
 
